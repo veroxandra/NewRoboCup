@@ -1,2 +1,2 @@
 # NewRoboCup
-Para emepzar el programa se debe lanzar el script ejecutar.sh
+Para empezar el programa se debe lanzar el script ejecutar.sh
