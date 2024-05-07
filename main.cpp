@@ -58,7 +58,7 @@ int main(int argc, char* argv[])
           }
         MinimalSocket::Address server_udp = MinimalSocket::Address{"127.0.0.1", other_sender_udp.getPort()};
 
-        PosicionarJugador(jugador, server_udp,udp_socket,argumentoString);
+        PosicionarJugador(jugador, server_udp,udp_socket);
         //clock.tic();
 
         while (true)

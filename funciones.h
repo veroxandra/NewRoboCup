@@ -121,6 +121,7 @@ vector<string> encontrarStringConPrefijo(const string& str, const string& prefij
 Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &palabras) {
     vector<string> valor,vectoria,valor2,valor3,valor4,valor5;
     Lectura lectura;
+    string semiOrden;
     if(tipo=="see"){
         lectura.tipo="see";
         for(auto parentesis:cadenas){
@@ -156,13 +157,26 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
     }else if(tipo=="hear"){
 
         for (int i = 0; i < palabras.size(); ++i) {
+            semiOrden=palabras.at(i);
+            string parteDeseada = semiOrden.substr(0, semiOrden.size()-1);
+            cout<<palabras.at(i)<<endl;
+
             if(palabras.at(i)=="play_on"){
                 lectura.tipo="play_on";
+
                 cout<<"empieza el partido"<<endl;
             }else if(palabras.at(i)=="kick_off_l"){
+                lectura.tipo="kick_off_l";
                 cout<<"Saca el equipo de la izq"<< endl;
             }else if(palabras.at(i)=="kick_off_r"){
+                lectura.tipo="kick_off_r";
                 cout<<"Saca el equipo de la derecha"<< endl;
+            }else if(parteDeseada=="goal_l_"){
+                lectura.tipo="goal";
+                cout<<"GOLASOOOOOOOOOOOOOOOO"<< endl;
+            }else if(parteDeseada=="goal_r_"){
+                lectura.tipo="goal";
+                cout<<"GOLASOOOOOOOOOOOOOOOO"<< endl;
             }
         }
 
@@ -183,7 +197,7 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
     return lectura;
 }
 
-void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket,string argumentoString) {
+void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket) {
     vector<Posicion> posiciones={{50,0},{35,-20},{35,20},{20,-25},{18,-9},{18,5},{20,20},{2,-18},{28,-18},{35,11},{5,0}};
     for(auto &p:posiciones){
         p.x=-p.x;
@@ -301,11 +315,10 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                     cout<<"Patadon a la direccion:"<<porteria<<endl;
                     udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
                 }else if(variable<0.6&&porteria==""){//Tengo el balon y no veo la porteria
-                    udp_socket.sendTo("(kick 20 180)", server_udp);
+                    udp_socket.sendTo("(kick 5 90)", server_udp);
                     this_thread::sleep_for(std::chrono::milliseconds(150));
-                    udp_socket.sendTo("(turn 180)", server_udp);
-                    this_thread::sleep_for(std::chrono::milliseconds(150));}
-                else if(variable<0.6&&valorpase!=""){
+
+                }else if(variable<0.6&&valorpase!=""){
                     cout<<"Pasecito a la direccion:"<<valorpase<<endl;
                     udp_socket.sendTo("(kick 50 "+valorpase+")", server_udp);
                 }else if(variable<0.6&&porteria!=""){//Tengo el balon y veo la porteria
@@ -322,13 +335,22 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
         if(!bola){
             udp_socket.sendTo("(turn 30)", server_udp);
         }
+        }else if(Data.tipo=="kick_off_l"){
+            cout<<"EMPIEZA EL GAME"<<endl;
 
-    }else if(Data.tipo=="Kick_off_Side"){
-        cout<<"EMPIEZA EL GAME"<<endl;
-    }
-    else if(Data.tipo=="Play_on"){
-        cout<<"EMPIEZA EL GAME"<<endl;
-    }
+        }else if(Data.tipo=="kick_off_r"){
+            cout<<"EMPIEZA EL GAME"<<endl;
+
+        }
+        else if(Data.tipo=="play_on"){
+            cout<<"EMPIEZA EL GAME"<<endl;
+
+        }
+        else if(Data.tipo=="goal"){
+            cout<<"Colocalos"<<endl;
+            PosicionarJugador(jugador, server_udp,udp_socket);
+            this_thread::sleep_for(std::chrono::seconds(5));
+        }
     return Data;
 }
 
