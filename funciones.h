@@ -215,6 +215,8 @@ void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,Minima
     }
 
 }
+
+void
 Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket){
     string vectoria,valor2,valor3, porteria;
     if(Data.tipo=="see"){
@@ -256,11 +258,6 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
 
         }
 
-    }else if(Data.tipo=="Kick_off_Side"){
-        cout<<"EMPIEZA EL GAME"<<endl;
-    }
-    else if(Data.tipo=="Play_on"){
-        cout<<"EMPIEZA EL GAME"<<endl;
     }
     return Data;
 }
