@@ -9,6 +9,9 @@
 *.so.*
 *.dll
 *.dylib
+*.qtc
+*.cmake
+*.qtc_clangd
 
 # Qt unit tests
 target_wrapper.*
