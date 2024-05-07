@@ -37,6 +37,8 @@ compile_commands.json
 # All cmake files
 CMakeLists.txt.user
 CMakeCache.txt
+CMakeCache.txt.prev
+qtcsettings.cmake
 CMakeFiles
 CMakeScripts
 CTestTestfile.cmake
