@@ -14,11 +14,9 @@ struct Posicion{
     int x;
     int y;
 };
-
 struct Jugador{
     int numero;
     int equipo;
-    string tipo;
 };
 struct Lectura{
     string tipo;
@@ -27,6 +25,10 @@ struct Lectura{
     string pelota;
     string pelota_angle;
 };
+
+vector <string> Flags={"(f l b)","(f c b)","(f r b)","(f l t)","(f c t)","(f r t)","(g r)","(g l)"};
+
+vector <Posicion> FlagsPos={{-50,30},{0,30},{50,30},{-50,-30},{0,-30},{50,-30},{50,0},{-50,0}};
 
 vector<string> vectorpalabras(string const &ejercicio){
     vector<string> resultado;
@@ -154,57 +156,46 @@ void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,Minima
 
     switch(jugador.numero){
     case 1:
-        jugador.tipo = tipos.at(1);
         udp_socket.sendTo(crearMove(posiciones.at(0)), server_udp);
         cout << crearMove(posiciones.at(0)) << endl;
         break;
     case 2:
-        jugador.tipo = tipos.at(0);
         udp_socket.sendTo(crearMove(posiciones.at(1)), server_udp);
         cout << crearMove(posiciones.at(1)) << endl;
         break;
     case 3:
-        jugador.tipo = tipos.at(0);
         udp_socket.sendTo(crearMove(posiciones.at(2)), server_udp);
         cout << crearMove(posiciones.at(2)) << endl;
         break;
     case 4:
-        jugador.tipo = tipos.at(0);
         udp_socket.sendTo(crearMove(posiciones.at(3)), server_udp);
         cout << crearMove(posiciones.at(3)) << endl;
         break;
     case 5:
-        jugador.tipo = tipos.at(0);
         udp_socket.sendTo(crearMove(posiciones.at(4)), server_udp);
         cout << crearMove(posiciones.at(4)) << endl;
         break;
     case 6:
-        jugador.tipo = tipos.at(0);
         udp_socket.sendTo(crearMove(posiciones.at(5)), server_udp);
         cout << crearMove(posiciones.at(5)) << endl;
         break;
     case 7:
-        jugador.tipo = tipos.at(0);
         udp_socket.sendTo(crearMove(posiciones.at(6)), server_udp);
         cout << crearMove(posiciones.at(6)) << endl;
         break;
     case 8:
-        jugador.tipo = tipos.at(0);
         udp_socket.sendTo(crearMove(posiciones.at(7)), server_udp);
         cout << crearMove(posiciones.at(7)) << endl;
         break;
     case 9:
-        jugador.tipo = tipos.at(2);
         udp_socket.sendTo(crearMove(posiciones.at(8)), server_udp);
         cout << crearMove(posiciones.at(8)) << endl;
         break;
     case 10:
-        jugador.tipo = tipos.at(2);
         udp_socket.sendTo(crearMove(posiciones.at(9)), server_udp);
         cout << crearMove(posiciones.at(9)) << endl;
         break;
     case 11:
-        jugador.tipo = tipos.at(2);
         udp_socket.sendTo(crearMove(posiciones.at(10)), server_udp);
         cout << crearMove(posiciones.at(10)) << endl;
         break;
@@ -216,7 +207,6 @@ void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,Minima
 
 }
 
-void
 Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket){
     string vectoria,valor2,valor3, porteria;
     if(Data.tipo=="see"){
@@ -261,6 +251,8 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
     }
     return Data;
 }
+
+Posicion ubicarJugador();
 
 #endif // FUNCIONES_H
 
