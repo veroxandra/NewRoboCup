@@ -293,8 +293,6 @@ void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,Minima
     case 1:
         udp_socket.sendTo(crearMove(posiciones.at(0)), server_udp);
         cout << crearMove(posiciones.at(0)) << endl;
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // Espera 1 segundo
-        udp_socket.sendTo("(init pOESIAC 1 (goalie))", server_udp);
         break;
     case 2:
         udp_socket.sendTo(crearMove(posiciones.at(1)), server_udp);
