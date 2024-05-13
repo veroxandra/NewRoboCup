@@ -409,7 +409,7 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                     cout<<"Patadon a la direccion:"<<porteria<<endl;
                     udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
                 }else if(variable<0.6&&porteria==""){//Tengo el balon y no veo la porteria
-                    udp_socket.sendTo("(kick 5 90)", server_udp);
+                    udp_socket.sendTo("(kick 5 90)", server_udp);//////////////////////////////////////////////
                     this_thread::sleep_for(std::chrono::milliseconds(150));
 
                 }else if(variable<0.6&&valorpase!=""){

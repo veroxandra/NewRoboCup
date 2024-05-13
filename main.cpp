@@ -31,10 +31,8 @@ int main(int argc, char* argv[])
         if(tipoJugador=="Jugador"){
         udp_socket.sendTo("(init "+argumentoString+"(version 19))", other_recipient_udp);
         }else if(tipoJugador=="Portero"){
-            udp_socket.sendTo("(init "+argumentoString+"(version 19) (goalie))", other_recipient_udp);
+            udp_socket.sendTo("(init "+argumentoString+"(version 19))", other_recipient_udp);
         }
-
-        //udp_socket.sendTo("(init pOESIAC(version 19))", other_recipient_udp);
         cout << "Message sent" << endl;
         // receive a message from another udp reaching this one
         std::size_t message_max_size = 10000;
@@ -56,7 +54,6 @@ int main(int argc, char* argv[])
                     jugador.equipo = 1;
                 }
         vector <string>palabras=vectorpalabras(received_message_content);
-
         for(const auto &palabra : palabras) {
               //cout << palabra << endl;
           }
