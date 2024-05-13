@@ -13,8 +13,8 @@
 using namespace std;
 
 struct Posicion{
-    int x;
-    int y;
+    double x;
+    double y;
 };
 
 struct Jugador{
@@ -157,6 +157,34 @@ double degToRad(double degrees) {
     return degrees * M_PI / 180.0;
 }
 
+double distance(Posicion p1, Posicion p2) {
+    return sqrt(pow((p2.x - p1.x), 2) + pow((p2.y - p1.y), 2));
+}
+Posicion circleIntersection(Posicion p1, double r1, Posicion p2, double r2) {
+    double d = distance(p1, p2);
+
+    if (d >= r1 + r2 || d <= fabs(r1 - r2)) {
+        return {std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()};
+    }
+
+    double a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
+    double h = sqrt(r1 * r1 - a * a);
+    double x2 = p1.x + a * (p2.x - p1.x) / d;
+    double y2 = p1.y + a * (p2.y - p1.y) / d;
+
+    double x3 = x2 + h * (p2.y - p1.y) / d;
+    double y3 = y2 - h * (p2.x - p1.x) / d;
+
+    double x4 = x2 - h * (p2.y - p1.y) / d;
+    double y4 = y2 + h * (p2.x - p1.x) / d;
+
+    // Elegir la intersección más cercana al punto (0,0)
+    if (distance({0,0}, {x3, y3}) < distance({0,0}, {x4, y4}))
+        return {x3, y3};
+    else
+        return {x4, y4};
+}
+
 Posicion TriangularPos(const std::vector<std::string>& lecturaFlag, const std::vector<std::string>& lecturaFlag2, const Posicion& Pos2, const Posicion& Pos1) {
     // Obtener las decisiones de dirección y distancia de cada lectura de flag
     Decision decision1 = { lecturaFlag[4], lecturaFlag[3]};
@@ -164,19 +192,30 @@ Posicion TriangularPos(const std::vector<std::string>& lecturaFlag, const std::v
 
     // Crear el triángulo con las posiciones y decisiones de lectura de flag
     Triangulo otro = {
-        (double)Pos1.x, (double)Pos1.y, std::stod(decision1.distancia), std::stod(decision1.direccion),
-        (double)Pos2.x, (double)Pos2.y, std::stod(decision2.distancia), std::stod(decision2.direccion)
+        (double)Pos1.x, (double)Pos1.y, std::stod(decision1.distancia)+2, std::stod(decision1.direccion),
+        (double)Pos2.x, (double)Pos2.y, std::stod(decision2.distancia)+2, std::stod(decision2.direccion)
     };
 
-    std::cout << "Dist1: " << otro.da << " Direccion1: " << otro.alpha_a << " PosX:" << otro.xa << " PosY:" << otro.ya << std::endl;
-    std::cout << "Dist2: " << otro.db << " Direccion2: " << otro.alpha_b << " PosX:" << otro.xb << " PosY:" << otro.yb << std::endl;
-
-    // Calcular las coordenadas triangulares
-    Posicion coordenadas;
-    coordenadas.x = otro.xb + otro.db * cos(degToRad(otro.alpha_b));
-    coordenadas.y = otro.yb + otro.db * sin(degToRad(otro.alpha_b));
-
-    return coordenadas;
+    for (int i = 0; i < 100000; ++i) {
+            Posicion coordenadas = circleIntersection(Pos1, otro.da, Pos2, otro.db);
+            // Calcular la distancia entre la intersección y los puntos dados
+            double dist1 = distance(Pos1, coordenadas);
+            double dist2 = distance(Pos2, coordenadas);
+            // Si las distancias calculadas son cercanas a las distancias dadas, retornar la intersección
+            if (std::abs(dist1 - otro.da) < 0.01 && std::abs(dist2 - otro.db) < 0.01) {
+                if(coordenadas.x<53&&coordenadas.y<33&&coordenadas.x>-53&&coordenadas.y>-33){
+                return coordenadas;
+                }else{
+                    //std::cout << "Dist1: " << otro.da << " Direccion1: " << otro.alpha_a << " PosX:" << otro.xa << " PosY:" << otro.ya << std::endl;
+                    //std::cout << "Dist2: " << otro.db << " Direccion2: " << otro.alpha_b << " PosX:" << otro.xb << " PosY:" << otro.yb << std::endl;
+                }
+            }
+            // Actualizar las distancias utilizando las distancias calculadas
+            otro.da = dist1;
+            otro.db = dist2;
+        }
+        // Si no se encuentra una solución después de un número máximo de iteraciones, retornar un punto inválido
+        return {std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()};
 }
 
 
@@ -194,7 +233,7 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
     vector <Posicion> FlagsPos={{-50,30},{0,30},{50,30},{-50,-30},{0,-30},{50,-30},{50,0},{-50,0}};
     */
     vector <string> Flags={"(f l b)","(f c b)","(f r b)","(f l t)","(f c t)","(f r t)"};
-    vector <Posicion> FlagsPos={{-50,30},{0,30},{50,30},{-50,-30},{0,-30},{50,-30}};
+    vector <Posicion> FlagsPos={{-53,33},{1,33},{53,33},{-53,-33},{1,-33},{53,-33}};
     if(tipo=="see"){
         lectura.tipo="see";
         for(auto parentesis:cadenas){
