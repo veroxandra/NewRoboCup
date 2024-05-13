@@ -9,6 +9,9 @@
 *.so.*
 *.dll
 *.dylib
+*.qtc
+*.cmake
+*.qtc_clangd
 
 # Qt unit tests
 target_wrapper.*
@@ -34,6 +37,8 @@ compile_commands.json
 # All cmake files
 CMakeLists.txt.user
 CMakeCache.txt
+CMakeCache.txt.prev
+qtcsettings.cmake
 CMakeFiles
 CMakeScripts
 CTestTestfile.cmake

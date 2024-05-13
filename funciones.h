@@ -189,12 +189,15 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
     int aux3=-1;
     Lectura lectura;
     string semiOrden;
+<<<<<<< HEAD
     /*
     vector <string> Flags={"(f l b)","(f c b)","(f r b)","(f l t)","(f c t)","(f r t)","(g r)","(g l)"};
     vector <Posicion> FlagsPos={{-50,30},{0,30},{50,30},{-50,-30},{0,-30},{50,-30},{50,0},{-50,0}};
     */
     vector <string> Flags={"(f l b)","(f c b)","(f r b)","(f l t)","(f c t)","(f r t)"};
     vector <Posicion> FlagsPos={{-50,30},{0,30},{50,30},{-50,-30},{0,-30},{50,-30}};
+=======
+>>>>>>> main
     if(tipo=="see"){
         lectura.tipo="see";
         for(auto parentesis:cadenas){
@@ -409,7 +412,11 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                     cout<<"Patadon a la direccion:"<<porteria<<endl;
                     udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
                 }else if(variable<0.6&&porteria==""){//Tengo el balon y no veo la porteria
+<<<<<<< HEAD
                     udp_socket.sendTo("(kick 5 90)", server_udp);//////////////////////////////////////////////
+=======
+                    udp_socket.sendTo("(kick 5 90)", server_udp);
+>>>>>>> main
                     this_thread::sleep_for(std::chrono::milliseconds(150));
 
                 }else if(variable<0.6&&valorpase!=""){
