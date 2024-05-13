@@ -10,14 +10,13 @@
 
 using namespace std;
 
-
-
 int main(int argc, char* argv[])
 {
     TicToc clock;
     Lectura Estructura;
     string argumentoString = argv[2];
-    MinimalSocket::Port this_socket_port = atoi(argv[0]);
+    MinimalSocket::Port this_socket_port = atoi(argv[1]);
+    string tipoJugador= argv[3];
     cout << "Creating a UDP socket" << endl;
     MinimalSocket::udp::Udp<true> udp_socket(this_socket_port, MinimalSocket::AddressFamily::IP_V6);
     cout << "Socket created" << endl;
@@ -29,8 +28,11 @@ int main(int argc, char* argv[])
     }
         // send a message to another udp
         MinimalSocket::Address other_recipient_udp = MinimalSocket::Address{"127.0.0.1", 6000};
+        if(tipoJugador=="Jugador"){
         udp_socket.sendTo("(init "+argumentoString+"(version 19))", other_recipient_udp);
-        //udp_socket.sendTo("(init pOESIAC(version 19))", other_recipient_udp);
+        }else if(tipoJugador=="Portero"){
+            udp_socket.sendTo("(init "+argumentoString+"(version 19))", other_recipient_udp);
+        }
         cout << "Message sent" << endl;
         // receive a message from another udp reaching this one
         std::size_t message_max_size = 10000;
@@ -52,7 +54,6 @@ int main(int argc, char* argv[])
                     jugador.equipo = 1;
                 }
         vector <string>palabras=vectorpalabras(received_message_content);
-
         for(const auto &palabra : palabras) {
               //cout << palabra << endl;
           }
@@ -61,14 +62,14 @@ int main(int argc, char* argv[])
         PosicionarJugador(jugador, server_udp,udp_socket);
         //clock.tic();
 
+
         while (true)
         {
-           /*while (clock.toc() < 100){
-                std::this_thread::sleep_for(std::chrono::milliseconds(1));                }
-            clock.tic();*/
             string resultado;
             auto received_message = udp_socket.receive(message_max_size);
             std::string received_message_content = received_message->received_message;
+            //cout << received_message_content << endl;
+
             string contenido = received_message_content.substr(1, received_message_content.size() - 2);
             auto tipo=obtenerPrimeraPalabra(contenido);
             vector<string> cadenas = dividir_en_palabras_parentesis(contenido);
@@ -80,9 +81,8 @@ int main(int argc, char* argv[])
                 resultado += cadenas.at(i);
             }
             auto pPalabras=vectorpalabras(resultado);
-            Estructura = ClasificaDatos(tipo, cadenas, pPalabras);
+            Estructura = ClasificaDatos(tipo, cadenas, pPalabras,jugador);
             Estructura = Accion ( jugador,Estructura, server_udp, udp_socket);
         }
         return 0;
     }
-
