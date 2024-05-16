@@ -21,7 +21,9 @@ struct Jugador{
     int numero;
     int equipo;
     Posicion pos;
+    double NeckAngle;
 };
+
 struct Lectura{
    string tipo;
    string porteria_der;
@@ -35,10 +37,12 @@ struct Lectura{
    vector<string> distamigo;
    vector<string> distamigo2;
 };
+
 struct Decision{
     string direccion;
     string distancia;
 };
+
 vector<string> vectorpalabras(string const &ejercicio){
     vector<string> resultado;
     string aux=ejercicio;
@@ -127,7 +131,7 @@ Posicion TriangularPos2(const std::vector<std::string>& lecturaFlag, const std::
     double Aa_grados = stod(decision1.direccion), Ab_grados = stod(decision2.direccion);
     double Xa = Pos1.x, Ya = Pos1.y, Xb = Pos2.x, Yb = Pos2.y;
     cout<<"Dist1: "<<Da<<" Direccion1: "<<Aa_grados<<" PosX:"<<Xa<<" PosY:"<<Ya<<endl;
-            cout<<"Dist2: "<<Db<<" Direccion2: "<<Ab_grados<<" PosX:"<<Xb<<" PosY:"<<Yb<<endl;
+    cout<<"Dist2: "<<Db<<" Direccion2: "<<Ab_grados<<" PosX:"<<Xb<<" PosY:"<<Yb<<endl;
     Posicion resultado;
 
     // Convertir ángulos de grados a radianes
@@ -139,7 +143,7 @@ Posicion TriangularPos2(const std::vector<std::string>& lecturaFlag, const std::
     double y = (Da * std::sin(Aa) * (Ya - Pos1.y) + Db * std::sin(Ab) * (Yb - Pos2.y)) / (std::sin(Aa) + std::sin(Ab));
 
     // Cálculo del ángulo del cuerpo
-    double alpha = std::atan2(y - Ya, x - Xa);
+    //double alpha = std::atan2(y - Ya, x - Xa);
 
     resultado.x = x;
     resultado.y = y;
@@ -147,6 +151,7 @@ Posicion TriangularPos2(const std::vector<std::string>& lecturaFlag, const std::
 
     return resultado;
 }
+
 struct Triangulo {
     double xa, ya, da, alpha_a;
     double xb, yb, db, alpha_b;
@@ -162,11 +167,9 @@ double distance(Posicion p1, Posicion p2) {
 }
 Posicion circleIntersection(Posicion p1, double r1, Posicion p2, double r2) {
     double d = distance(p1, p2);
-
     if (d >= r1 + r2 || d <= fabs(r1 - r2)) {
         return {std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()};
     }
-
     double a = (r1 * r1 - r2 * r2 + d * d) / (2 * d);
     double h = sqrt(r1 * r1 - a * a);
     double x2 = p1.x + a * (p2.x - p1.x) / d;
@@ -192,12 +195,14 @@ Posicion TriangularPos(const std::vector<std::string>& lecturaFlag, const std::v
 
     // Crear el triángulo con las posiciones y decisiones de lectura de flag
     Triangulo otro = {
-        (double)Pos1.x, (double)Pos1.y, std::stod(decision1.distancia)+2, std::stod(decision1.direccion),
-        (double)Pos2.x, (double)Pos2.y, std::stod(decision2.distancia)+2, std::stod(decision2.direccion)
+        (double)Pos1.x, (double)Pos1.y, std::stod(decision1.distancia)+4, std::stod(decision1.direccion),
+        (double)Pos2.x, (double)Pos2.y, std::stod(decision2.distancia)+4, std::stod(decision2.direccion)
     };
-
     for (int i = 0; i < 100000; ++i) {
             Posicion coordenadas = circleIntersection(Pos1, otro.da, Pos2, otro.db);
+            if (std::isnan(coordenadas.x) || std::isnan(coordenadas.y)) {
+                        continue;
+                    }
             // Calcular la distancia entre la intersección y los puntos dados
             double dist1 = distance(Pos1, coordenadas);
             double dist2 = distance(Pos2, coordenadas);
@@ -253,8 +258,10 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
                         aux3=i;//Guardamos el indice del vector de posiciones
                     }else if(count ==1){
                         count++;
-                        jugador.pos=TriangularPos(aux,aux2,FlagsPos[aux3],FlagsPos[i]);
-                        cout<<"La posicion es: "<<"X: "<<jugador.pos.x <<"Y: "<<jugador.pos.y<<endl;
+                        Posicion pos=TriangularPos(aux,aux2,FlagsPos[aux3],FlagsPos[i]);
+                        if (!std::isnan(pos.x) && !std::isnan(pos.y)) {
+                                                    jugador.pos = pos;
+                                                }
                     }
                 }
                 i++;
@@ -280,16 +287,23 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
                 lectura.distamigo2.push_back(valor5.at(2));
             }
         }
+    }else if(tipo=="sense_body"){
+        lectura.tipo="sense_body";
+        for(auto parentesis:cadenas){
+            //cout<<parentesis<<endl;
+        valor=encontrarStringConPrefijo(parentesis,"head_angle");
+        if(valor.size()>1){
+            jugador.NeckAngle=stoi(valor.at(1));
+            }
+        }
     }else if(tipo=="hear"){
 
         for (int i = 0; i < palabras.size(); ++i) {
             semiOrden=palabras.at(i);
             string parteDeseada = semiOrden.substr(0, semiOrden.size()-1);
-            cout<<palabras.at(i)<<endl;
-
+            //cout<<palabras.at(i)<<endl;
             if(palabras.at(i)=="play_on"){
                 lectura.tipo="play_on";
-
                 cout<<"empieza el partido"<<endl;
             }else if(palabras.at(i)=="kick_off_l"){
                 lectura.tipo="kick_off_l";
@@ -315,7 +329,6 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
         lectura.direccionamigo2.clear();
         lectura.distamigo2.clear();
         lectura.distamigo2.clear();
-
         lectura.porteria_der_dist="";
         lectura.porteria_izq_dist="";
     }
@@ -327,13 +340,14 @@ void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,Minima
     for(auto &p:posiciones){
         p.x=-p.x;
     }
-
     switch(jugador.numero){
     case 1:
+        jugador.pos=posiciones.at(0);
         udp_socket.sendTo(crearMove(posiciones.at(0)), server_udp);
         cout << crearMove(posiciones.at(0)) << endl;
         break;
     case 2:
+        jugador.pos=posiciones.at(1);
         udp_socket.sendTo(crearMove(posiciones.at(1)), server_udp);
         cout << crearMove(posiciones.at(1)) << endl;
         break;
@@ -406,22 +420,107 @@ bool MasCercaBola(vector<string> direcciones, vector<string> distancias,double d
             cout <<elem<<endl;
             if(stod(elem)-dist<dist){//Hay un jugador mas cerca que yo
                 i++;
-                cout << "Veo a alguien mas cerca"<<endl;
-                if(stod(elem)-dist<1){//Hay un jugador muy muy cerca
+                //cout << "Veo a alguien mas cerca"<<endl;
+                if(stod(elem)-dist<0.6){//Hay un jugador muy muy cerca
                     return false;
                 }
             }
         }
         if(num<i){//Numero de jugadores a detectar<=Detectados
-            cout << "Vemos a mas de 2"<<endl;
+            //cout << "Vemos a mas de 2"<<endl;
             return false;
         }
     return true;
 }
 
-
-
+bool EstoyEnMiCuadrante(Jugador const &jugador){
+    switch(jugador.numero){
+    case 1:
+        cout<<jugador.equipo;
+            if(jugador.pos.x<36*jugador.equipo&&jugador.pos.x>52*jugador.equipo&&jugador.pos.y>-20&&jugador.pos.y<20){
+                return true;
+            }else{
+                    return false;
+                }
+        break;
+    case 2:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 3:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 4:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 5:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 6:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 7:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 8:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 9:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 10:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+    break;
+    case 11:
+        if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
+            return true;
+        }else{
+                return false;
+            }
+        break;
+    }
+    return false;
+}
+void imprimirPosicion(Posicion pos){
+    cout <<"Posicion X: "<<pos.x <<" Y:"<<pos.y<<endl;
+}
 Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket){
+    //cout<<"mi jugador tiene el cuello con un angulo "<<jugador.NeckAngle<<endl;
     string vectoria,valor2,valor3, porteria,valorpase,distPor;
     Decision pase;
     if(Data.tipo=="see"){
@@ -444,13 +543,23 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
             if(Data.pelota!=""){
                 bola = true;
                 double variable=stod(Data.pelota);
+                //if(!EstoyEnMiCuadrante(jugador)&&porteria!="")//No estoy en mi sitio y veo la porteria
+                //{
+                  //  double porteria2=stod(porteria)+180;
+
+                    //cout<<"No Toy donde deberia"<<endl;
+                    //imprimirPosicion(jugador.pos);
+                    //udp_socket.sendTo("(dash 100 "+to_string(porteria2)+")", server_udp);
+                //}
+//                else if(EstoyEnMiCuadrante(jugador)){
+  //                  cout<<"Toy donde deberia"<<endl;
+//          }
                 if(variable<0.6&&porteria!=""&&stod(distPor)<50){
                     cout<<"Patadon a la direccion:"<<porteria<<endl;
                     udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
                 }else if(variable<0.6&&porteria==""){//Tengo el balon y no veo la porteria
                     udp_socket.sendTo("(kick 5 90)", server_udp);
                     this_thread::sleep_for(std::chrono::milliseconds(150));
-
                 }else if(variable<0.6&&valorpase!=""){
                     cout<<"Pasecito a la direccion:"<<valorpase<<endl;
                     udp_socket.sendTo("(kick 50 "+valorpase+")", server_udp);
@@ -470,14 +579,11 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
         }
         }else if(Data.tipo=="kick_off_l"){
             cout<<"EMPIEZA EL GAME"<<endl;
-
         }else if(Data.tipo=="kick_off_r"){
             cout<<"EMPIEZA EL GAME"<<endl;
-
         }
         else if(Data.tipo=="play_on"){
             cout<<"EMPIEZA EL GAME"<<endl;
-
         }
         else if(Data.tipo=="goal"){
             cout<<"Colocalos"<<endl;
