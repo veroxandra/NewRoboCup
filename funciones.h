@@ -433,15 +433,23 @@ bool MasCercaBola(vector<string> direcciones, vector<string> distancias,double d
     return true;
 }
 
-bool EstoyEnMiCuadrante(Jugador const &jugador){
+bool EstoyEnMiCuadrante(Jugador const &jugador,double porteria,MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket){
     switch(jugador.numero){
     case 1:
         cout<<jugador.equipo;
             if(jugador.pos.x<36*jugador.equipo&&jugador.pos.x>52*jugador.equipo&&jugador.pos.y>-20&&jugador.pos.y<20){
                 return true;
-            }else{
+            }else if(jugador.pos.x<36*jugador.equipo){
+                //Acciones
+                cout<<"No Toy donde deberia"<<endl;
+               udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
                     return false;
-                }
+                }else{
+                //Acciones
+                cout<<"No Toy donde deberia"<<endl;
+                udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+                    return false;
+            }
         break;
     case 2:
         if(jugador.pos.x>0*jugador.equipo&&jugador.pos.x<20*jugador.equipo&&jugador.pos.y>0*jugador.equipo&&jugador.pos.y<20*jugador.equipo){
@@ -516,12 +524,180 @@ bool EstoyEnMiCuadrante(Jugador const &jugador){
     }
     return false;
 }
+Posicion calcularPosicionRelativa(double Px, double Py, double d, double theta) {
+    Posicion pos;
+    pos.x = Px + d * cos(degToRad(theta));
+    pos.y = Py + d * sin(degToRad(theta));
+
+    return pos;
+}
+
+
+double radToDeg(double radians) {
+    return radians * 180.0 / M_PI;
+}
+
+
+
+double calcularOrientacionAbsoluta(double Px, double Py, double x, double y) {
+    return (atan2(y - Py, x - Px)); // Convertir radianes a grados
+}
+void Decisionamos(Jugador const &jugador,double porteria,MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket,double DistPor){
+    double Px = 0, Py = 50*jugador.equipo; // Coordenadas del punto visible
+
+    Posicion pos = calcularPosicionRelativa(Px, Py, DistPor, porteria);
+    double orientacion = calcularOrientacionAbsoluta(Px, Py, pos.x, pos.y);
+    cout <<"Mi orientacion es: "<<orientacion;
+    cout <<"Mi KEKORI es: "<<porteria;
+
+    cout <<"Mi X es: "<<pos.x;
+    cout <<"Mi Y es: "<<pos.y<<endl;
+    cout <<"Estoy a "<<DistPor<<" de la porteria"<<endl;
+    int dist=0;
+    switch(jugador.numero){
+    case 1:
+        dist=100;
+        if(DistPor<100){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 2:        
+        dist=80;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 3:
+        dist=80;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 4:
+        dist=60;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 5:
+        dist=60;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 6:
+        dist=60;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 7:
+        dist=60;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 8:
+        dist=30;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+
+    case 9:
+        dist=80;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 10:
+        dist=80;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    case 11:
+        dist=30;
+        if(DistPor<dist){//Si estoy muy cerca
+        udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
+        }
+        else if (DistPor >= dist && DistPor <= dist+5) {
+            udp_socket.sendTo("(dash 0 "+to_string(porteria)+")", server_udp);
+        }
+        else{
+            udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
+        }
+        break;
+    }
+
+}
+
 void imprimirPosicion(Posicion pos){
     cout <<"Posicion X: "<<pos.x <<" Y:"<<pos.y<<endl;
 }
 Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket){
     //cout<<"mi jugador tiene el cuello con un angulo "<<jugador.NeckAngle<<endl;
-    string vectoria,valor2,valor3, porteria,valorpase,distPor;
+    string vectoria,valor2,valor3, porteria,valorpase,distPor,distanciaPase;
     Decision pase;
     if(Data.tipo=="see"){
         bool bola=false;
@@ -529,10 +705,12 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                 pase=DetectarMasCercano(Data.direccionamigo2,Data.distamigo2);
                 valor2=Data.porteria_der;//Buscar en todos los parentesis el de (g r)
                 valorpase=pase.direccion;//Funcion para obtener el mas cercano
+                distanciaPase=pase.distancia;
                 valor3=Data.porteria_der_dist;//Buscar en todos los parentesis el de (g r)
             }else if(jugador.equipo==1){
                 pase=DetectarMasCercano(Data.direccionamigo,Data.distamigo);
                 valor2=Data.porteria_izq;//Buscar en todos los parentesis el de (g l)
+                distanciaPase=pase.distancia;
                 valorpase=pase.direccion;;//Funcion para obtener el mas cercano
                 valor3=Data.porteria_izq_dist;//Buscar en todos los parentesis el de (g r)
             }
@@ -543,26 +721,31 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
             if(Data.pelota!=""){
                 bola = true;
                 double variable=stod(Data.pelota);
-                //if(!EstoyEnMiCuadrante(jugador)&&porteria!="")//No estoy en mi sitio y veo la porteria
-                //{
-                  //  double porteria2=stod(porteria)+180;
+                /*
+                if(porteria!=""&&!EstoyEnMiCuadrante(jugador,stod(porteria),server_udp,udp_socket))//No estoy en mi sitio y veo la porteria rival
+                {
 
-                    //cout<<"No Toy donde deberia"<<endl;
-                    //imprimirPosicion(jugador.pos);
-                    //udp_socket.sendTo("(dash 100 "+to_string(porteria2)+")", server_udp);
-                //}
+                }
 //                else if(EstoyEnMiCuadrante(jugador)){
+*/
   //                  cout<<"Toy donde deberia"<<endl;
 //          }
-                if(variable<0.6&&porteria!=""&&stod(distPor)<50){
-                    cout<<"Patadon a la direccion:"<<porteria<<endl;
-                    udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
+
+                if(variable<0.6&&porteria!=""&&stod(distPor)<30){//Cebollon
+                    int offset = (std::rand() % 2 == 0) ? 12 : -12;
+                    int Palo=stod(porteria)+offset;
+                    udp_socket.sendTo("(kick 100 "+to_string(Palo)+")", server_udp);
+                }
+                else if(variable<0.6&&porteria!=""&&stod(distPor)<50){
+                    udp_socket.sendTo("(kick 30 "+porteria+")", server_udp);
                 }else if(variable<0.6&&porteria==""){//Tengo el balon y no veo la porteria
-                    udp_socket.sendTo("(kick 5 90)", server_udp);
+                    udp_socket.sendTo("(kick 10 90)", server_udp);
                     this_thread::sleep_for(std::chrono::milliseconds(150));
-                }else if(variable<0.6&&valorpase!=""){
+                }else if(variable<0.6&&valorpase!=""){//PASE
                     cout<<"Pasecito a la direccion:"<<valorpase<<endl;
-                    udp_socket.sendTo("(kick 50 "+valorpase+")", server_udp);
+                    int paseplus=stod(distanciaPase)+10;
+
+                    udp_socket.sendTo("(kick "+to_string(paseplus)+" "+valorpase+")", server_udp);
                 }else if(variable<0.6&&porteria!=""){//Tengo el balon y veo la porteria
                     udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
                 }
@@ -572,10 +755,12 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                     udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
                 }else if(jugador.equipo==1&&MasCercaBola(Data.direccionamigo,Data.distamigo,variable,1)){
                     udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
+                }else if(porteria!=""){//No soy el mas cercano a la bola pero en lugar de quedarme parado voy a cambiar mi X
+                    Decisionamos(jugador,stod(porteria),server_udp,udp_socket,stod(distPor));
                 }
             }
         if(!bola){
-            udp_socket.sendTo("(turn 30)", server_udp);
+            udp_socket.sendTo("(turn 45)", server_udp);
         }
         }else if(Data.tipo=="kick_off_l"){
             cout<<"EMPIEZA EL GAME"<<endl;
