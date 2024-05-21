@@ -27,6 +27,8 @@ struct Jugador{
 struct Lectura{
    string tipo;
    string porteria_der;
+   string centro_arriba;
+   string centro_abajo;
    string porteria_der_dist;
    string porteria_izq;
    string porteria_izq_dist;
@@ -227,15 +229,15 @@ Posicion TriangularPos(const std::vector<std::string>& lecturaFlag, const std::v
 
 
 Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &palabras,Jugador &jugador) {
-    vector<string> valor,vectoria,valor2,valor3,valor4,valor5,aux,aux2;
+    vector<string> valor,vectoria,valor2,valor3,valor4,valor5,aux,aux2,valor6,valor7;
     int count=0;
     int i=0;
     int aux3=-1;
     Lectura lectura;
     string semiOrden;
     /*
-    vector <string> Flags={"(f l b)","(f c b)","(f r b)","(f l t)","(f c t)","(f r t)","(g r)","(g l)"};
-    vector <Posicion> FlagsPos={{-50,30},{0,30},{50,30},{-50,-30},{0,-30},{50,-30},{50,0},{-50,0}};
+    vector <string> Flags={"(f l b)","(f c b)","(f r b)","(f l t)","(f c t)","(f r t)","(g r)","(g l)"};(f c b)(f c t)
+    vector <Posicion> FlagsPos={{-50,30},{0,30},{50,30},{-50,-30},{0,-30},{50,-30},{50,0},       {-50,0}};
     */
     vector <string> Flags={"(f l b)","(f c b)","(f r b)","(f l t)","(f c t)","(f r t)"};
     vector <Posicion> FlagsPos={{-53,33},{1,33},{53,33},{-53,-33},{1,-33},{53,-33}};
@@ -247,8 +249,12 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
             valor=encontrarStringConPrefijo(parentesis,"(b)");//Buscar en todos los parentesis el de (b)
             valor2=encontrarStringConPrefijo(parentesis,"(g r)");//Buscar en todos los parentesis el de (g r)
             valor3=encontrarStringConPrefijo(parentesis,"(g l)");//Buscar en todos los parentesis el de (g l)
+            valor3=encontrarStringConPrefijo(parentesis,"(g l)");//Buscar en todos los parentesis el de (g l)
             valor4 = encontrarStringConPrefijo(parentesis, "\"pOESIACA\" ");
             valor5 = encontrarStringConPrefijo(parentesis, "\"pOESIAC\" ");
+            valor6=encontrarStringConPrefijo(parentesis,"(f c b)");//Buscar en todos los parentesis el de (g l)
+            valor7=encontrarStringConPrefijo(parentesis,"(f c t)");//Buscar en todos los parentesis el de (g l)
+
             for(auto Bandera:Flags){
                aux  = encontrarStringConPrefijo(parentesis,Bandera);
                 if(aux.size()>1){//Hemos visto un flag
@@ -265,6 +271,12 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
                     }
                 }
                 i++;
+            }
+            if(valor6.size()>1){
+                lectura.centro_arriba=(valor6.at(1));
+            }
+            if(valor7.size()>1){
+                lectura.centro_abajo=(valor7.at(1));
             }
             if(valor2.size()>1){
                 lectura.porteria_der=(valor2.at(3));
@@ -331,6 +343,8 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
         lectura.distamigo2.clear();
         lectura.porteria_der_dist="";
         lectura.porteria_izq_dist="";
+        lectura.centro_abajo="";
+        lectura.centro_arriba="";
     }
     return lectura;
 }
@@ -528,7 +542,6 @@ Posicion calcularPosicionRelativa(double Px, double Py, double d, double theta) 
     Posicion pos;
     pos.x = Px + d * cos(degToRad(theta));
     pos.y = Py + d * sin(degToRad(theta));
-
     return pos;
 }
 
@@ -697,19 +710,21 @@ void imprimirPosicion(Posicion pos){
 }
 Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket){
     //cout<<"mi jugador tiene el cuello con un angulo "<<jugador.NeckAngle<<endl;
-    string vectoria,valor2,valor3, porteria,valorpase,distPor,distanciaPase;
+    string vectoria,valor2,valor3, porteria,valorpase,distPor,distanciaPase,porteriaRival;
     Decision pase;
     if(Data.tipo=="see"){
         bool bola=false;
             if(jugador.equipo==-1){
                 pase=DetectarMasCercano(Data.direccionamigo2,Data.distamigo2);
                 valor2=Data.porteria_der;//Buscar en todos los parentesis el de (g r)
+                porteriaRival=Data.porteria_izq;
                 valorpase=pase.direccion;//Funcion para obtener el mas cercano
                 distanciaPase=pase.distancia;
                 valor3=Data.porteria_der_dist;//Buscar en todos los parentesis el de (g r)
             }else if(jugador.equipo==1){
                 pase=DetectarMasCercano(Data.direccionamigo,Data.distamigo);
                 valor2=Data.porteria_izq;//Buscar en todos los parentesis el de (g l)
+                porteriaRival=Data.porteria_der;
                 distanciaPase=pase.distancia;
                 valorpase=pase.direccion;;//Funcion para obtener el mas cercano
                 valor3=Data.porteria_izq_dist;//Buscar en todos los parentesis el de (g r)
@@ -721,16 +736,6 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
             if(Data.pelota!=""){
                 bola = true;
                 double variable=stod(Data.pelota);
-                /*
-                if(porteria!=""&&!EstoyEnMiCuadrante(jugador,stod(porteria),server_udp,udp_socket))//No estoy en mi sitio y veo la porteria rival
-                {
-
-                }
-//                else if(EstoyEnMiCuadrante(jugador)){
-*/
-  //                  cout<<"Toy donde deberia"<<endl;
-//          }
-
                 if(variable<0.6&&porteria!=""&&stod(distPor)<30){//Cebollon
                     int offset = (std::rand() % 2 == 0) ? 12 : -12;
                     int Palo=stod(porteria)+offset;
@@ -738,17 +743,20 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                 }
                 else if(variable<0.6&&porteria!=""&&stod(distPor)<50){
                     udp_socket.sendTo("(kick 30 "+porteria+")", server_udp);
-                }else if(variable<0.6&&porteria==""){//Tengo el balon y no veo la porteria
+                }else if(variable<0.6&&porteria==""&&porteriaRival!=""){//Tengo el balon y no veo la porteria
                     udp_socket.sendTo("(kick 10 90)", server_udp);
                     this_thread::sleep_for(std::chrono::milliseconds(150));
                 }else if(variable<0.6&&valorpase!=""){//PASE
                     cout<<"Pasecito a la direccion:"<<valorpase<<endl;
                     int paseplus=stod(distanciaPase)+10;
-
                     udp_socket.sendTo("(kick "+to_string(paseplus)+" "+valorpase+")", server_udp);
                 }else if(variable<0.6&&porteria!=""){//Tengo el balon y veo la porteria
                     udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
                 }
+                else if(porteria==""&&variable<0.6&&porteriaRival==""&&Data.centro_abajo==""&&Data.centro_arriba==""){
+                                    cout<<"SAQUE BANDA?"<<endl;
+                                    udp_socket.sendTo("(kick 40 180)", server_udp);
+                                }
                 else if(abs(stod(Data.pelota_angle))>20){
                     udp_socket.sendTo("(turn "+Data.pelota_angle+")", server_udp);
                 }else if(jugador.equipo==-1&&MasCercaBola(Data.direccionamigo2,Data.distamigo2,variable,1)){
