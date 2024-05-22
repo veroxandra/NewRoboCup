@@ -133,7 +133,7 @@ vector<string> encontrarStringConPrefijo(const string& str, const string& prefij
     return vectorpalabras(""); // Retorna una cadena vacía si no se encuentra el prefijo
 }
 
-/*Posicion TriangularPos2(const std::vector<std::string>& lecturaFlag, const std::vector<std::string>& lecturaFlag2, const Posicion& Pos2, const Posicion& Pos1) {
+Posicion TriangularPos2(const std::vector<std::string>& lecturaFlag, const std::vector<std::string>& lecturaFlag2, const Posicion& Pos2, const Posicion& Pos1) {
     // Obtener las decisiones de dirección y distancia de cada lectura de flag
     Decision decision1 = { lecturaFlag[4], lecturaFlag[3]};
     Decision decision2 = { lecturaFlag2[4], lecturaFlag2[3] };
@@ -141,8 +141,8 @@ vector<string> encontrarStringConPrefijo(const string& str, const string& prefij
     double Da = stod(decision1.distancia), Db = stod(decision2.distancia);
     double Aa_grados = stod(decision1.direccion), Ab_grados = stod(decision2.direccion);
     double Xa = Pos1.x, Ya = Pos1.y, Xb = Pos2.x, Yb = Pos2.y;
-    cout<<"Dist1: "<<Da<<" Direccion1: "<<Aa_grados<<" PosX:"<<Xa<<" PosY:"<<Ya<<endl;
-    cout<<"Dist2: "<<Db<<" Direccion2: "<<Ab_grados<<" PosX:"<<Xb<<" PosY:"<<Yb<<endl;
+    //cout<<"Dist1: "<<Da<<" Direccion1: "<<Aa_grados<<" PosX:"<<Xa<<" PosY:"<<Ya<<endl;
+    //cout<<"Dist2: "<<Db<<" Direccion2: "<<Ab_grados<<" PosX:"<<Xb<<" PosY:"<<Yb<<endl;
     Posicion resultado;
 
     // Convertir ángulos de grados a radianes
@@ -233,7 +233,7 @@ Posicion TriangularPos(const std::vector<std::string>& lecturaFlag, const std::v
         // Si no se encuentra una solución después de un número máximo de iteraciones, retornar un punto inválido
         return {std::numeric_limits<double>::quiet_NaN(), std::numeric_limits<double>::quiet_NaN()};
 }
-*/
+
 
 
 
@@ -316,42 +316,27 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
                 lectura.distamigo2.push_back(valor5.at(2));
             }
             if(distancia_portero_up_l.size()>1){
-                cout<<lectura.distancia_portero_up_l<<endl;
                 lectura.distancia_portero_up_l=(distancia_portero_up_l.at(4));
             }
             if(distancia_portero_up_r.size()>1){
-                cout<<lectura.distancia_portero_up_r<<endl;
-
                 lectura.distancia_portero_up_r=(distancia_portero_up_r.at(4));
             }
             if(distancia_portero_down_l.size()>1){
-                cout<<lectura.distancia_portero_down_l<<endl;
-
                 lectura.distancia_portero_down_l=(distancia_portero_down_l.at(4));
             }
             if(distancia_portero_down_r.size()>1){
-                cout<<lectura.distancia_portero_down_r<<endl;
-
                 lectura.distancia_portero_down_r=(distancia_portero_down_r.at(4));
             }
             if(distancia_portero_centre_l.size()>1){
-                cout<<lectura.distancia_portero_centre_l<<endl;
-
                 lectura.distancia_portero_centre_l=(distancia_portero_centre_l.at(4));
             }
             if(distancia_portero_centre_r.size()>1){
-                cout<<lectura.distancia_portero_centre_r<<endl;
-
                 lectura.distancia_portero_centre_r=(distancia_portero_centre_r.at(4));
             }
             if(distanciaAreaChica_l.size()>1){
-                cout<<lectura.distanciaAreaChica_l<<endl;
-
                 lectura.distanciaAreaChica_l=(distanciaAreaChica_l.at(4));
             }
             if(distanciaAreaChica_r.size()>1){
-                cout<<lectura.distanciaAreaChica_r<<endl;
-
                 lectura.distanciaAreaChica_r=(distanciaAreaChica_r.at(4));
             }
 
@@ -416,7 +401,7 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
 }
 
 void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket) {
-    vector<Posicion> posiciones={{50,0},{35,-20},{35,20},{20,-25},{18,-9},{18,5},{20,20},{2,-18},{28,-18},{35,11},{5,0}};
+    vector<Posicion> posiciones={{50,0},{35,-20},{35,20},{20,-25},{18,-9},{18,5},{20,20},{2,-18},{30,-3},{35,11},{5,0}};
     for(auto &p:posiciones){
         p.x=-p.x;
     }
@@ -458,7 +443,6 @@ void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,Minima
     case 8:
         udp_socket.sendTo(crearMove(posiciones.at(7)), server_udp);
         cout << "h"<<crearMove(posiciones.at(7)) << endl;
-
         break;
     case 9:
         udp_socket.sendTo(crearMove(posiciones.at(8)), server_udp);
@@ -474,8 +458,12 @@ void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,Minima
         break;
     }
     if(jugador.equipo == 1){
-        std::this_thread::sleep_for(std::chrono::seconds(1)); // Espera 1 segundo
-        udp_socket.sendTo("(turn 180)", server_udp);
+        std::this_thread::sleep_for(std::chrono::seconds(2)); // Espera 1 segundo
+        if(jugador.tipoJugador=="Portero")
+            udp_socket.sendTo("(turn 175)", server_udp);
+            else{
+            udp_socket.sendTo("(turn 180)", server_udp);
+        }
     }
 }
 
@@ -500,8 +488,6 @@ bool MasCercaBola(vector<string> direcciones, vector<string> distancias,double d
             if(elem=="goalie)"){
 
             }else if(elem!="goalie)"){
-
-                cout <<"l"<<elem<<endl;
                 if(stod(elem)-dist<dist){//Hay un jugador mas cerca que yo
                     i++;
                     //cout << "Veo a alguien mas cerca"<<endl;
@@ -512,7 +498,6 @@ bool MasCercaBola(vector<string> direcciones, vector<string> distancias,double d
             }
         }
         if(num<i){//Numero de jugadores a detectar<=Detectados
-            //cout << "Vemos a mas de 2"<<endl;
             return false;
         }
     return true;
@@ -521,17 +506,14 @@ bool MasCercaBola(vector<string> direcciones, vector<string> distancias,double d
 bool EstoyEnMiCuadrante(Jugador const &jugador,double porteria,MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket){
     switch(jugador.numero){
     case 1:
-        cout<<jugador.equipo;
             if(jugador.pos.x<36*jugador.equipo&&jugador.pos.x>52*jugador.equipo&&jugador.pos.y>-20&&jugador.pos.y<20){
                 return true;
             }else if(jugador.pos.x<36*jugador.equipo){
                 //Acciones
-                cout<<"No Toy donde deberia"<<endl;
                udp_socket.sendTo("(dash 100 "+to_string(porteria)+")", server_udp);
                     return false;
                 }else{
                 //Acciones
-                cout<<"No Toy donde deberia"<<endl;
                 udp_socket.sendTo("(dash 100 "+to_string(porteria+180)+")", server_udp);
                     return false;
             }
@@ -632,12 +614,12 @@ void Decisionamos(Jugador const &jugador,double porteria,MinimalSocket::Address 
 
     Posicion pos = calcularPosicionRelativa(Px, Py, DistPor, porteria);
     double orientacion = calcularOrientacionAbsoluta(Px, Py, pos.x, pos.y);
-    cout <<"Mi orientacion es: "<<orientacion;
-    cout <<"Mi KEKORI es: "<<porteria;
+//    cout <<"Mi orientacion es: "<<orientacion;
+//    cout <<"Mi KEKORI es: "<<porteria;
 
-    cout <<"Mi X es: "<<pos.x;
-    cout <<"Mi Y es: "<<pos.y<<endl;
-    cout <<"Estoy a "<<DistPor<<" de la porteria"<<endl;
+ //   cout <<"Mi X es: "<<pos.x;
+  //  cout <<"Mi Y es: "<<pos.y<<endl;
+    //cout <<"Estoy a "<<DistPor<<" de la porteria"<<endl;
     int dist=0;
     switch(jugador.numero){
     case 1:
@@ -784,253 +766,125 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
   string vectoria,valor2,valor3, porteria,valorpase,distPor,distanciaPase,porteriaRival;
   Decision pase;
     if(jugador.equipo==1 && jugador.tipoJugador =="Portero"){
-       cout<< Data.pelota_angle<< "  a     "<< Data.distancia_portero_up_r<< Data.distancia_portero_down_r<<endl;
-
         if(Data.pelota_angle!=""  && Data.tipo=="see"){
-            if(Data.tipo=="see"&&stod(Data.pelota_angle)>30){
-                udp_socket.sendTo("(turn 30)", server_udp);
-            }
-            if(stod(Data.pelota_angle) > 0 && Data.distancia_portero_up_r!=""){
-                if(stod(Data.distancia_portero_up_r) > 6.5){
+            if(stod(Data.pelota_angle) > 0 && Data.distancia_portero_down_r!=""&&stod(Data.pelota)<30){
                         udp_socket.sendTo("(dash 100 90)", server_udp);
-                        cout <<"pelota arriba"<<endl;
-                }
-            }
-//            if(Data.distanciaAreaChica_r!=""){
-//                if(stod(Data.distanciaAreaChica_r) > 10 && stod(Data.pelota)<3){
-//                        udp_socket.sendTo("(dash 100 0)", server_udp);
-//                        cout <<"pelota arriba"<<endl;
-//                }
-//                if(stod(Data.distanciaAreaChica_r) < 10 && stod(Data.pelota)>3){
-//                        udp_socket.sendTo("(dash 100 180)", server_udp);
-//                        cout <<"pelota arriba"<<endl;
-//                }
-//            }
-//            if(stod(Data.pelota_angle) > 0 && Data.distancia_portero_down_r =="") {
-//                udp_socket.sendTo("(dash 100 90)", server_udp);
-//                cout <<"pelota arriba"<<endl;
 
-//            }
-            if(stod(Data.pelota_angle) < 0 && Data.distancia_portero_down_r!=""){
-                if(stod(Data.distancia_portero_down_r) > 6.5){
+            }
+            if(stod(Data.pelota_angle) < 0 && Data.distancia_portero_up_r!=""&&stod(Data.pelota)<30){
                         udp_socket.sendTo("(dash 100 -90)", server_udp);
-                        cout <<"pelota abajo"<<endl;
-                }
-            }
-//            if(stod(Data.pelota_angle) < 0 && Data.distancia_portero_down_r =="") {
-//                udp_socket.sendTo("(dash 100 -90)", server_udp);
-//                cout <<"pelota abajo"<<endl;
 
-//            }
-            cout<<"Distancia pelota: " << Data.pelota<<endl;
+            }
             if(stod(Data.pelota) < 1.3){
                 udp_socket.sendTo("(catch "+ Data.pelota_angle+")", server_udp);
-                cout <<"pa mi"<<endl;
                 this_thread::sleep_for(std::chrono::milliseconds(155));
                 udp_socket.sendTo("(kick 100 17)", server_udp);
-
             }
         }
         if(Data.tipo=="goal"){
-
-            cout<<"Colocalos"<<endl;
-            PosicionarJugador(jugador, server_udp,udp_socket);
+            //PosicionarJugador(jugador, server_udp,udp_socket);
             this_thread::sleep_for(std::chrono::seconds(5));
         }
     }else if(jugador.equipo==-1 && jugador.tipoJugador =="Portero"){
-        cout<< Data.pelota_angle<< "  b     "<< Data.distancia_portero_up_l<< endl;
-
         if(Data.pelota_angle!="" && Data.tipo=="see"){
-
-            cout<< Data.pelota_angle<< "  b     "<< Data.distancia_portero_up_l<< endl;
             if(stod(Data.pelota_angle) > 0 && Data.distancia_portero_up_l!=""){
                 if(stod(Data.distancia_portero_up_l) > 6.5){
                     udp_socket.sendTo("(dash 100 90)", server_udp);
-                    cout <<"pelota arriba"<<endl;
                 }
             }
-//            if(Data.distanciaAreaChica_l!=""){
-//                if(stod(Data.distanciaAreaChica_l) > 10){
-//                    udp_socket.sendTo("(dash 100 0)", server_udp);
-//                    cout <<"pelota arriba"<<endl;
-//                }
-//            }
-//            if(Data.distanciaAreaChica_l!=""){
-//                if(stod(Data.distanciaAreaChica_l) > 10 && stod(Data.pelota)<3){
-//                    udp_socket.sendTo("(dash 100 0)", server_udp);
-//                    cout <<"pelota arriba"<<endl;
-//                }
-//                if(stod(Data.distanciaAreaChica_l) < 10 && stod(Data.pelota)>3){
-//                    udp_socket.sendTo("(dash 100 180)", server_udp);
-//                    cout <<"pelota arriba"<<endl;
-//                }
-//            }
-//            if(stod(Data.pelota_angle) > 0 && Data.distancia_portero_up_l =="") {
-//                udp_socket.sendTo("(dash 100 90)", server_udp);
-//                cout <<"pelota arriba"<<endl;
-//            }
             if(stod(Data.pelota_angle) < 0 && Data.distancia_portero_down_l!="") {
                 if (stod(Data.distancia_portero_down_l) > 6.5){
                     udp_socket.sendTo("(dash 100 -90)", server_udp);
-                    cout <<"pelota abajo"<<endl;
                 }
             }
-//            if(stod(Data.pelota_angle) < 0 && Data.distancia_portero_down_l=="") {
-//                udp_socket.sendTo("(dash 100 -90)", server_udp);
-//                cout <<"pelota abajo"<<endl;
-//            }
             if(stod(Data.pelota) <1.3){
                 udp_socket.sendTo("(catch "+ Data.pelota_angle+")", server_udp);
                 this_thread::sleep_for(std::chrono::milliseconds(155));
                 udp_socket.sendTo("(kick 100 15)", server_udp);
-
-                cout <<"pa mi"<<endl;
-
             }
-    
-    if(Data.tipo=="see"){
-        bool bola=false;
-            if(jugador.equipo==-1){
-                pase=DetectarMasCercano(Data.direccionamigo2,Data.distamigo2);
-                valor2=Data.porteria_der;//Buscar en todos los parentesis el de (g r)
-                porteriaRival=Data.porteria_izq;
-                valorpase=pase.direccion;//Funcion para obtener el mas cercano
-                distanciaPase=pase.distancia;
-                valor3=Data.porteria_der_dist;//Buscar en todos los parentesis el de (g r)
-            }else if(jugador.equipo==1){
-                pase=DetectarMasCercano(Data.direccionamigo,Data.distamigo);
-                valor2=Data.porteria_izq;//Buscar en todos los parentesis el de (g l)
-                porteriaRival=Data.porteria_der;
-                distanciaPase=pase.distancia;
-                valorpase=pase.direccion;;//Funcion para obtener el mas cercano
-                valor3=Data.porteria_izq_dist;//Buscar en todos los parentesis el de (g r)
-            }
-            if(valor2!=""){
-                porteria=valor2;
-                distPor=valor3;
-            }
-            if(Data.pelota!=""){
-                bola = true;
-                double variable=stod(Data.pelota);
-                if(variable<0.6&&porteria!=""&&stod(distPor)<30){//Cebollon
-                    int offset = (std::rand() % 2 == 0) ? 12 : -12;
-                    int Palo=stod(porteria)+offset;
-                    udp_socket.sendTo("(kick 100 "+to_string(Palo)+")", server_udp);
-                }
-                else if(variable<0.6&&porteria!=""&&stod(distPor)<50){
-                    udp_socket.sendTo("(kick 30 "+porteria+")", server_udp);
-                }else if(variable<0.6&&porteria==""&&porteriaRival!=""){//Tengo el balon y no veo la porteria
-                    udp_socket.sendTo("(kick 10 90)", server_udp);
-                    this_thread::sleep_for(std::chrono::milliseconds(150));
-                }else if(variable<0.6&&valorpase!=""){//PASE
-                    cout<<"Pasecito a la direccion:"<<valorpase<<endl;
-                    int paseplus=stod(distanciaPase)+10;
-                    udp_socket.sendTo("(kick "+to_string(paseplus)+" "+valorpase+")", server_udp);
-                }else if(variable<0.6&&porteria!=""){//Tengo el balon y veo la porteria
-                    udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
-                }
-                else if(porteria==""&&variable<0.6&&porteriaRival==""&&Data.centro_abajo==""&&Data.centro_arriba==""){
-                                    cout<<"SAQUE BANDA?"<<endl;
-                                    udp_socket.sendTo("(kick 40 180)", server_udp);
-                                }
-                else if(abs(stod(Data.pelota_angle))>20){
-                    udp_socket.sendTo("(turn "+Data.pelota_angle+")", server_udp);
-                }else if(jugador.equipo==-1&&MasCercaBola(Data.direccionamigo2,Data.distamigo2,variable,1)){
-                    udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
-                }else if(jugador.equipo==1&&MasCercaBola(Data.direccionamigo,Data.distamigo,variable,1)){
-                    udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
-                }else if(porteria!=""){//No soy el mas cercano a la bola pero en lugar de quedarme parado voy a cambiar mi X
-                    Decisionamos(jugador,stod(porteria),server_udp,udp_socket,stod(distPor));
-                }
-            }
-        if(!bola){
-            udp_socket.sendTo("(turn 45)", server_udp);
-        }
-        }else if(Data.tipo=="kick_off_l"){
-            cout<<"EMPIEZA EL GAME"<<endl;
-        }else if(Data.tipo=="kick_off_r"){
-            cout<<"EMPIEZA EL GAME"<<endl;
-        }
-        else if(Data.tipo=="play_on"){
-            cout<<"EMPIEZA EL GAME"<<endl;
-        }
-        if(Data.tipo=="goal"){
-            cout<<"Colocalos"<<endl;
-            PosicionarJugador(jugador, server_udp,udp_socket);
-            this_thread::sleep_for(std::chrono::seconds(5));
-
         }
     }else if(jugador.tipoJugador =="Jugador"){
         if(Data.tipo=="see"){
-            bool bola=false;
-                if(jugador.equipo==-1){
-                    pase=DetectarMasCercano(Data.direccionamigo2,Data.distamigo2);
-                    valor2=Data.porteria_der;//Buscar en todos los parentesis el de (g r)
-                    valorpase=pase.direccion;//Funcion para obtener el mas cercano
-                    valor3=Data.porteria_der_dist;//Buscar en todos los parentesis el de (g r)
-                }else if(jugador.equipo==1){
-                    pase=DetectarMasCercano(Data.direccionamigo,Data.distamigo);
-                    valor2=Data.porteria_izq;//Buscar en todos los parentesis el de (g l)
-                    valorpase=pase.direccion;;//Funcion para obtener el mas cercano
-                    valor3=Data.porteria_izq_dist;//Buscar en todos los parentesis el de (g r)
-                }
-                if(valor2!=""){
-                    porteria=valor2;
-                    distPor=valor3;
-                }
-                if(Data.pelota!=""){
-                    bola = true;
-                    double variable=stod(Data.pelota);
-                    //if(!EstoyEnMiCuadrante(jugador)&&porteria!="")//No estoy en mi sitio y veo la porteria
-                    //{
-                      //  double porteria2=stod(porteria)+180;
-
-                        //cout<<"No Toy donde deberia"<<endl;
-                        //imprimirPosicion(jugador.pos);
-                        //udp_socket.sendTo("(dash 100 "+to_string(porteria2)+")", server_udp);
-                    //}
-    //                else if(EstoyEnMiCuadrante(jugador)){
-      //                  cout<<"Toy donde deberia"<<endl;
-    //          }
-                    if(variable<0.6&&porteria!=""&&stod(distPor)<50){
-                        cout<<"Patadon a la direccion:"<<porteria<<endl;
-                        udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
-                    }else if(variable<0.6&&porteria==""){//Tengo el balon y no veo la porteria
-                        udp_socket.sendTo("(kick 5 90)", server_udp);
-                        this_thread::sleep_for(std::chrono::milliseconds(150));
-                    }else if(variable<0.6&&valorpase!=""){
-                        cout<<"Pasecito a la direccion:"<<valorpase<<endl;
-                        udp_socket.sendTo("(kick 50 "+valorpase+")", server_udp);
-                    }else if(variable<0.6&&porteria!=""){//Tengo el balon y veo la porteria
-                        udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
+                bool bola=false;
+                    if(jugador.equipo==-1){
+                        pase=DetectarMasCercano(Data.direccionamigo2,Data.distamigo2);
+                        valor2=Data.porteria_der;
+                        porteriaRival=Data.porteria_izq;
+                        valorpase=pase.direccion;//Funcion para obtener el mas cercano
+                        distanciaPase=pase.distancia;
+                        valor3=Data.porteria_der_dist;//Buscar en todos los parentesis el de (g r)
+                    }else if(jugador.equipo==1){
+                        pase=DetectarMasCercano(Data.direccionamigo,Data.distamigo);
+                        valor2=Data.porteria_izq;//Buscar en todos los parentesis el de (g l)
+                        porteriaRival=Data.porteria_der;
+                        distanciaPase=pase.distancia;
+                        valorpase=pase.direccion;;//Funcion para obtener el mas cercano
+                        valor3=Data.porteria_izq_dist;//Buscar en todos los parentesis el de (g r)
                     }
-                    else if(abs(stod(Data.pelota_angle))>20){
-                        udp_socket.sendTo("(turn "+Data.pelota_angle+")", server_udp);
-                    }else if(jugador.equipo==-1&&MasCercaBola(Data.direccionamigo2,Data.distamigo2,variable,1)){
-                        udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
-                    }else if(jugador.equipo==1&&MasCercaBola(Data.direccionamigo,Data.distamigo,variable,1)){
-                        udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
+                    if(valor2!=""){
+                        porteria=valor2;
+                        distPor=valor3;
                     }
+                    if(Data.pelota!=""){
+                        bola = true;
+                        bool pases;
+                        if(jugador.equipo==1)
+                        pases=(Data.centro_abajo!="");
+                        else
+                         pases=Data.centro_arriba!="";
+                        double variable=stod(Data.pelota);
+                        if(variable<0.6&&porteria!=""&&stod(distPor)<30){//Cebollon
+                            int offset = (std::rand() % 2 == 0) ? 12 : -12;
+                            if(stod(distPor)>22)
+                                offset=(std::rand() % 2 == 0) ? 9 : 9;
+                            int Palo=stod(porteria)+offset;
+                            udp_socket.sendTo("(kick 100 "+to_string(Palo)+")", server_udp);
+                        }
+                        else if(variable<0.6&&porteria!=""&&stod(distPor)<50){//Conduccion a la porteria
+                            udp_socket.sendTo("(kick 30 "+porteria+")", server_udp);
+                        }else if(variable<0.6&&valorpase!=""&&porteriaRival==""&&(porteria!=""||pases)){//No miro hacia mi porteria pero veo a un amigo
+                            int paseplus=stod(distanciaPase)+20;//Mas potencia para el pase
+                            if(paseplus<20)
+                                paseplus=30;
+                            udp_socket.sendTo("(kick "+to_string(paseplus)+" "+valorpase+")", server_udp);
+                        }else if(variable<0.6&&porteria==""&&(porteriaRival!=""||Data.centro_abajo!=""||Data.centro_arriba!="")){//Tengo el balon y no veo la porteria rival pero si otras flags
+                            udp_socket.sendTo("(kick 10 90)", server_udp);
+                            this_thread::sleep_for(std::chrono::milliseconds(150));
+                        }else if(variable<0.6&&porteria!=""){//Tengo el balon y veo la porteria rival
+                            udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
+                        }
+                        else if(porteria==""&&variable<0.6&&porteriaRival==""&&Data.centro_abajo==""&&Data.centro_arriba==""){
+                                            udp_socket.sendTo("(kick 40 180)", server_udp);
+                                        }
+                        else if(abs(stod(Data.pelota_angle))>20){
+                            udp_socket.sendTo("(turn "+Data.pelota_angle+")", server_udp);
+                        }else if(jugador.equipo==-1&&MasCercaBola(Data.direccionamigo2,Data.distamigo2,variable,2)){
+                            udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
+                        }else if(jugador.equipo==1&&MasCercaBola(Data.direccionamigo,Data.distamigo,variable,2)){
+                            udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
+                        }else if(porteria!=""){//No soy el mas cercano a la bola pero en lugar de quedarme parado voy a cambiar mi X
+                            Decisionamos(jugador,stod(porteria),server_udp,udp_socket,stod(distPor));
+                        }
+                    }
+                if(!bola){
+                    udp_socket.sendTo("(turn 45)", server_udp);
                 }
-            if(!bola){
-                udp_socket.sendTo("(turn 30)", server_udp);
+                }else if(Data.tipo=="kick_off_l"){
+                    cout<<"EMPIEZA EL GAME"<<endl;
+                }else if(Data.tipo=="kick_off_r"){
+                    cout<<"EMPIEZA EL GAME"<<endl;
+                }
+                else if(Data.tipo=="play_on"){
+                    cout<<"EMPIEZA EL GAME"<<endl;
+                }
+                else if(Data.tipo=="goal"){
+                    cout<<"Colocalos"<<endl;
+                    if(jugador.tipoJugador!="Portero")
+                    PosicionarJugador(jugador, server_udp,udp_socket);
+                    this_thread::sleep_for(std::chrono::seconds(5));
+                }
             }
-            }else if(Data.tipo=="kick_off_l"){
-                cout<<"EMPIEZA EL GAME"<<endl;
-            }else if(Data.tipo=="kick_off_r"){
-                cout<<"EMPIEZA EL GAME"<<endl;
-            }
-            else if(Data.tipo=="play_on"){
-                cout<<"EMPIEZA EL GAME"<<endl;
-            }
-            else if(Data.tipo=="goal"){
-                cout<<"Colocalos"<<endl;
-                PosicionarJugador(jugador, server_udp,udp_socket);
-                this_thread::sleep_for(std::chrono::seconds(5));
-            }
-        return Data;
-    }
-    return Data;
-}
+            return Data;
+        }
 
-#endif // FUNCIONES_H
+        #endif // FUNCIONES_H

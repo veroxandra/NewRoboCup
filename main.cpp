@@ -88,7 +88,6 @@ int main(int argc, char* argv[])
             resultado += cadenas.at(i);
         }
         auto pPalabras=vectorpalabras(resultado);
-
         Estructura = ClasificaDatos(tipo, cadenas, pPalabras,jugador);
         Estructura = Accion ( jugador,Estructura, server_udp, udp_socket);
 
