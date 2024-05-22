@@ -47,19 +47,19 @@ cmake_ninja_workdir = /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_
 #############################################
 # Order-only phony target for runTests
 
-build cmake_object_order_depends_target_runTests: phony || cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
+build cmake_object_order_depends_target_runTests: phony || cmake_object_order_depends_target_MinimalSocket cmake_object_order_depends_target_gtest cmake_object_order_depends_target_gtest_main
 
 build CMakeFiles/runTests.dir/main.cpp.o: CXX_COMPILER__runTests_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/main.cpp || cmake_object_order_depends_target_runTests
   DEP_FILE = CMakeFiles/runTests.dir/main.cpp.o.d
   FLAGS = -DQT_QML_DEBUG -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/_deps/googletest-src/googletest/include -I/home/verooo/Escritorio/NewRoboCup/tests/.. -isystem /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/googletest-src/googletest/include -isystem /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/googletest-src/googletest
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/.. -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header -isystem /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/googletest-src/googletest/include -isystem /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/googletest-src/googletest
   OBJECT_DIR = CMakeFiles/runTests.dir
   OBJECT_FILE_DIR = CMakeFiles/runTests.dir
 
 build CMakeFiles/runTests.dir/funciones_test.cpp.o: CXX_COMPILER__runTests_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/funciones_test.cpp || cmake_object_order_depends_target_runTests
   DEP_FILE = CMakeFiles/runTests.dir/funciones_test.cpp.o.d
   FLAGS = -DQT_QML_DEBUG -g -std=gnu++20 -fdiagnostics-color=always
-  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/_deps/googletest-src/googletest/include -I/home/verooo/Escritorio/NewRoboCup/tests/.. -isystem /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/googletest-src/googletest/include -isystem /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/googletest-src/googletest
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/.. -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header -isystem /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/googletest-src/googletest/include -isystem /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/googletest-src/googletest
   OBJECT_DIR = CMakeFiles/runTests.dir
   OBJECT_FILE_DIR = CMakeFiles/runTests.dir
 
@@ -71,9 +71,9 @@ build CMakeFiles/runTests.dir/funciones_test.cpp.o: CXX_COMPILER__runTests_unsca
 #############################################
 # Link the executable runTests
 
-build runTests runTests[1]_tests.cmake | ${cmake_ninja_workdir}runTests[1]_tests.cmake: CXX_EXECUTABLE_LINKER__runTests_Debug CMakeFiles/runTests.dir/main.cpp.o CMakeFiles/runTests.dir/funciones_test.cpp.o | lib/libgtest_main.a lib/libgtest.a || lib/libgtest.a lib/libgtest_main.a
+build runTests runTests[1]_tests.cmake | ${cmake_ninja_workdir}runTests[1]_tests.cmake: CXX_EXECUTABLE_LINKER__runTests_Debug CMakeFiles/runTests.dir/main.cpp.o CMakeFiles/runTests.dir/funciones_test.cpp.o | lib/libgtest_main.a _deps/min_sock-build/src/libMinimalSocket.a lib/libgtest.a || _deps/min_sock-build/src/libMinimalSocket.a lib/libgtest.a lib/libgtest_main.a
   FLAGS = -DQT_QML_DEBUG -g
-  LINK_LIBRARIES = lib/libgtest_main.a  lib/libgtest.a
+  LINK_LIBRARIES = lib/libgtest_main.a  _deps/min_sock-build/src/libMinimalSocket.a  lib/libgtest.a
   OBJECT_DIR = CMakeFiles/runTests.dir
   POST_BUILD = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug && /home/verooo/Qt/Tools/CMake/bin/cmake -D TEST_TARGET=runTests -D TEST_EXECUTABLE=/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/runTests -D TEST_EXECUTOR= -D TEST_WORKING_DIR=/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug -D TEST_EXTRA_ARGS= -D TEST_PROPERTIES= -D TEST_PREFIX= -D TEST_SUFFIX= -D TEST_FILTER= -D NO_PRETTY_TYPES=FALSE -D NO_PRETTY_VALUES=FALSE -D TEST_LIST=runTests_TESTS -D CTEST_FILE=/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/runTests[1]_tests.cmake -D TEST_DISCOVERY_TIMEOUT=5 -D TEST_XML_OUTPUT_DIR= -P /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GoogleTestAddTests.cmake
   PRE_LINK = :
@@ -158,6 +158,288 @@ build CMakeFiles/install/strip.util: CUSTOM_COMMAND all
   restat = 1
 
 build install/strip: phony CMakeFiles/install/strip.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/verooo/Escritorio/NewRoboCup/tests/CMakeLists.txt
+# =============================================================================
+
+
+#############################################
+# Utility command for test
+
+build _deps/min_sock-build/CMakeFiles/test.util: CUSTOM_COMMAND
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build && /home/verooo/Qt/Tools/CMake/bin/ctest --force-new-ctest-process
+  DESC = Running tests...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/test: phony _deps/min_sock-build/CMakeFiles/test.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/min_sock-build/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build && /home/verooo/Qt/Tools/CMake/bin/ccmake -S/home/verooo/Escritorio/NewRoboCup/tests -B/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/edit_cache: phony _deps/min_sock-build/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/min_sock-build/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build && /home/verooo/Qt/Tools/CMake/bin/cmake --regenerate-during-build -S/home/verooo/Escritorio/NewRoboCup/tests -B/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/rebuild_cache: phony _deps/min_sock-build/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for list_install_components
+
+build _deps/min_sock-build/list_install_components: phony
+
+
+#############################################
+# Utility command for install
+
+build _deps/min_sock-build/CMakeFiles/install.util: CUSTOM_COMMAND _deps/min_sock-build/all
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build && /home/verooo/Qt/Tools/CMake/bin/cmake -P cmake_install.cmake
+  DESC = Install the project...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/install: phony _deps/min_sock-build/CMakeFiles/install.util
+
+
+#############################################
+# Utility command for install/local
+
+build _deps/min_sock-build/CMakeFiles/install/local.util: CUSTOM_COMMAND _deps/min_sock-build/all
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build && /home/verooo/Qt/Tools/CMake/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+  DESC = Installing only the local directory...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/install/local: phony _deps/min_sock-build/CMakeFiles/install/local.util
+
+
+#############################################
+# Utility command for install/strip
+
+build _deps/min_sock-build/CMakeFiles/install/strip.util: CUSTOM_COMMAND _deps/min_sock-build/all
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build && /home/verooo/Qt/Tools/CMake/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+  DESC = Installing the project stripped...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/install/strip: phony _deps/min_sock-build/CMakeFiles/install/strip.util
+
+# =============================================================================
+# Write statements declared in CMakeLists.txt:
+# /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/CMakeLists.txt
+# =============================================================================
+
+# =============================================================================
+# Object build statements for STATIC_LIBRARY target MinimalSocket
+
+
+#############################################
+# Order-only phony target for MinimalSocket
+
+build cmake_object_order_depends_target_MinimalSocket: phony || _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/Error.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/Error.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/Error.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketAddress.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/SocketAddress.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketAddress.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketFunctions.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/SocketFunctions.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketFunctions.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketHandler.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/SocketHandler.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketHandler.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Address.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/core/Address.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Address.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Definitions.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/core/Definitions.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Definitions.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Receiver.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/core/Receiver.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Receiver.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Sender.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/core/Sender.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Sender.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Socket.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/core/Socket.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Socket.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/SocketContext.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/core/SocketContext.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/SocketContext.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/tcp/TcpClient.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/tcp/TcpClient.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/tcp/TcpClient.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/tcp
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/tcp/TcpServer.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/tcp/TcpServer.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/tcp/TcpServer.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/tcp
+
+build _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/udp/UdpSocket.cpp.o: CXX_COMPILER__MinimalSocket_unscanned_Debug /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/src/udp/UdpSocket.cpp || cmake_object_order_depends_target_MinimalSocket
+  DEP_FILE = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/udp/UdpSocket.cpp.o.d
+  FLAGS = -DQT_QML_DEBUG -g -std=c++20 -fdiagnostics-color=always
+  INCLUDES = -I/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-src/src/header
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  OBJECT_FILE_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/udp
+
+
+# =============================================================================
+# Link build statements for STATIC_LIBRARY target MinimalSocket
+
+
+#############################################
+# Link the static library _deps/min_sock-build/src/libMinimalSocket.a
+
+build _deps/min_sock-build/src/libMinimalSocket.a: CXX_STATIC_LIBRARY_LINKER__MinimalSocket_Debug _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/Error.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketAddress.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketFunctions.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/SocketHandler.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Address.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Definitions.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Receiver.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Sender.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/Socket.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/core/SocketContext.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/tcp/TcpClient.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/tcp/TcpServer.cpp.o _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir/src/udp/UdpSocket.cpp.o
+  LANGUAGE_COMPILE_FLAGS = -DQT_QML_DEBUG -g
+  OBJECT_DIR = _deps/min_sock-build/src/CMakeFiles/MinimalSocket.dir
+  POST_BUILD = :
+  PRE_LINK = :
+  TARGET_FILE = _deps/min_sock-build/src/libMinimalSocket.a
+  TARGET_PDB = MinimalSocket.a.dbg
+
+
+#############################################
+# Utility command for test
+
+build _deps/min_sock-build/src/CMakeFiles/test.util: CUSTOM_COMMAND
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build/src && /home/verooo/Qt/Tools/CMake/bin/ctest --force-new-ctest-process
+  DESC = Running tests...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/src/test: phony _deps/min_sock-build/src/CMakeFiles/test.util
+
+
+#############################################
+# Utility command for edit_cache
+
+build _deps/min_sock-build/src/CMakeFiles/edit_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build/src && /home/verooo/Qt/Tools/CMake/bin/ccmake -S/home/verooo/Escritorio/NewRoboCup/tests -B/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug
+  DESC = Running CMake cache editor...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/src/edit_cache: phony _deps/min_sock-build/src/CMakeFiles/edit_cache.util
+
+
+#############################################
+# Utility command for rebuild_cache
+
+build _deps/min_sock-build/src/CMakeFiles/rebuild_cache.util: CUSTOM_COMMAND
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build/src && /home/verooo/Qt/Tools/CMake/bin/cmake --regenerate-during-build -S/home/verooo/Escritorio/NewRoboCup/tests -B/home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug
+  DESC = Running CMake to regenerate build system...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/src/rebuild_cache: phony _deps/min_sock-build/src/CMakeFiles/rebuild_cache.util
+
+
+#############################################
+# Utility command for list_install_components
+
+build _deps/min_sock-build/src/list_install_components: phony
+
+
+#############################################
+# Utility command for install
+
+build _deps/min_sock-build/src/CMakeFiles/install.util: CUSTOM_COMMAND _deps/min_sock-build/src/all
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build/src && /home/verooo/Qt/Tools/CMake/bin/cmake -P cmake_install.cmake
+  DESC = Install the project...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/src/install: phony _deps/min_sock-build/src/CMakeFiles/install.util
+
+
+#############################################
+# Utility command for install/local
+
+build _deps/min_sock-build/src/CMakeFiles/install/local.util: CUSTOM_COMMAND _deps/min_sock-build/src/all
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build/src && /home/verooo/Qt/Tools/CMake/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
+  DESC = Installing only the local directory...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/src/install/local: phony _deps/min_sock-build/src/CMakeFiles/install/local.util
+
+
+#############################################
+# Utility command for install/strip
+
+build _deps/min_sock-build/src/CMakeFiles/install/strip.util: CUSTOM_COMMAND _deps/min_sock-build/src/all
+  COMMAND = cd /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build/src && /home/verooo/Qt/Tools/CMake/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+  DESC = Installing the project stripped...
+  pool = console
+  restat = 1
+
+build _deps/min_sock-build/src/install/strip: phony _deps/min_sock-build/src/CMakeFiles/install/strip.util
 
 # =============================================================================
 # Write statements declared in CMakeLists.txt:
@@ -539,6 +821,8 @@ build _deps/googletest-build/googletest/install/strip: phony _deps/googletest-bu
 # =============================================================================
 # Target aliases.
 
+build MinimalSocket: phony _deps/min_sock-build/src/libMinimalSocket.a
+
 build gmock: phony lib/libgmock.a
 
 build gmock_main: phony lib/libgmock_main.a
@@ -546,6 +830,8 @@ build gmock_main: phony lib/libgmock_main.a
 build gtest: phony lib/libgtest.a
 
 build gtest_main: phony lib/libgtest_main.a
+
+build libMinimalSocket.a: phony _deps/min_sock-build/src/libMinimalSocket.a
 
 build libgmock.a: phony lib/libgmock.a
 
@@ -563,7 +849,7 @@ build libgtest_main.a: phony lib/libgtest_main.a
 #############################################
 # Folder: /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug
 
-build all: phony runTests _deps/googletest-build/all
+build all: phony runTests _deps/min_sock-build/all _deps/googletest-build/all
 
 # =============================================================================
 
@@ -587,20 +873,34 @@ build _deps/googletest-build/googlemock/all: phony lib/libgmock.a lib/libgmock_m
 build _deps/googletest-build/googletest/all: phony lib/libgtest.a lib/libgtest_main.a
 
 # =============================================================================
+
+#############################################
+# Folder: /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build
+
+build _deps/min_sock-build/all: phony _deps/min_sock-build/src/all
+
+# =============================================================================
+
+#############################################
+# Folder: /home/verooo/Escritorio/NewRoboCup/tests/build/Desktop_Qt_6_7_0-Debug/_deps/min_sock-build/src
+
+build _deps/min_sock-build/src/all: phony _deps/min_sock-build/src/libMinimalSocket.a
+
+# =============================================================================
 # Built-in targets
 
 
 #############################################
 # Re-run CMake if any of its inputs changed.
 
-build build.ninja: RERUN_CMAKE | .qtc/package-manager/auto-setup.cmake /home/verooo/Escritorio/NewRoboCup/tests/CMakeLists.txt /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDependentOption.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakePackageConfigHelpers.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckCSourceCompiles.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckIncludeFile.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckLibraryExists.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/ExternalProject/shared_internal_commands.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FetchContent.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FetchContent/CMakeLists.cmake.in /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPython.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPython/Support.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindThreads.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GNUInstallDirs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GoogleTest.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.27.7/CMakeCCompiler.cmake CMakeFiles/3.27.7/CMakeCXXCompiler.cmake CMakeFiles/3.27.7/CMakeSystem.cmake _deps/googletest-src/CMakeLists.txt _deps/googletest-src/googlemock/CMakeLists.txt _deps/googletest-src/googlemock/cmake/gmock.pc.in _deps/googletest-src/googlemock/cmake/gmock_main.pc.in _deps/googletest-src/googletest/CMakeLists.txt _deps/googletest-src/googletest/cmake/Config.cmake.in _deps/googletest-src/googletest/cmake/gtest.pc.in _deps/googletest-src/googletest/cmake/gtest_main.pc.in _deps/googletest-src/googletest/cmake/internal_utils.cmake
+build build.ninja: RERUN_CMAKE | .qtc/package-manager/auto-setup.cmake /home/verooo/Escritorio/NewRoboCup/tests/CMakeLists.txt /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDependentOption.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakePackageConfigHelpers.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckCSourceCompiles.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckIncludeFile.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckLibraryExists.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/ExternalProject/shared_internal_commands.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FetchContent.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FetchContent/CMakeLists.cmake.in /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindGit.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPython.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPython/Support.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindThreads.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GNUInstallDirs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GoogleTest.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.27.7/CMakeCCompiler.cmake CMakeFiles/3.27.7/CMakeCXXCompiler.cmake CMakeFiles/3.27.7/CMakeSystem.cmake _deps/googletest-src/CMakeLists.txt _deps/googletest-src/googlemock/CMakeLists.txt _deps/googletest-src/googlemock/cmake/gmock.pc.in _deps/googletest-src/googlemock/cmake/gmock_main.pc.in _deps/googletest-src/googletest/CMakeLists.txt _deps/googletest-src/googletest/cmake/Config.cmake.in _deps/googletest-src/googletest/cmake/gtest.pc.in _deps/googletest-src/googletest/cmake/gtest_main.pc.in _deps/googletest-src/googletest/cmake/internal_utils.cmake _deps/min_sock-src/CMakeLists.txt _deps/min_sock-src/src/CMakeLists.txt
   pool = console
 
 
 #############################################
 # A missing CMake input file is not an error.
 
-build .qtc/package-manager/auto-setup.cmake /home/verooo/Escritorio/NewRoboCup/tests/CMakeLists.txt /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDependentOption.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakePackageConfigHelpers.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckCSourceCompiles.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckIncludeFile.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckLibraryExists.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/ExternalProject/shared_internal_commands.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FetchContent.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FetchContent/CMakeLists.cmake.in /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPython.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPython/Support.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindThreads.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GNUInstallDirs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GoogleTest.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.27.7/CMakeCCompiler.cmake CMakeFiles/3.27.7/CMakeCXXCompiler.cmake CMakeFiles/3.27.7/CMakeSystem.cmake _deps/googletest-src/CMakeLists.txt _deps/googletest-src/googlemock/CMakeLists.txt _deps/googletest-src/googlemock/cmake/gmock.pc.in _deps/googletest-src/googlemock/cmake/gmock_main.pc.in _deps/googletest-src/googletest/CMakeLists.txt _deps/googletest-src/googletest/cmake/Config.cmake.in _deps/googletest-src/googletest/cmake/gtest.pc.in _deps/googletest-src/googletest/cmake/gtest_main.pc.in _deps/googletest-src/googletest/cmake/internal_utils.cmake: phony
+build .qtc/package-manager/auto-setup.cmake /home/verooo/Escritorio/NewRoboCup/tests/CMakeLists.txt /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/BasicConfigVersion-AnyNewerVersion.cmake.in /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCXXInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeCommonLanguageInclude.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeDependentOption.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeGenericSystem.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeInitializeConfigs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeLanguageInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakePackageConfigHelpers.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInformation.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CMakeSystemSpecificInitialize.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckCSourceCompiles.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckIncludeFile.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/CheckLibraryExists.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/CMakeCommonCompilerMacros.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU-C.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU-CXX.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Compiler/GNU.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/ExternalProject/shared_internal_commands.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FetchContent.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FetchContent/CMakeLists.cmake.in /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindGit.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPackageHandleStandardArgs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPackageMessage.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPython.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindPython/Support.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/FindThreads.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GNUInstallDirs.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/GoogleTest.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Internal/CheckSourceCompiles.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU-C.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU-CXX.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-GNU.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux-Initialize.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/Linux.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/Platform/UnixPaths.cmake /home/verooo/Qt/Tools/CMake/share/cmake-3.27/Modules/WriteBasicConfigVersionFile.cmake CMakeCache.txt CMakeFiles/3.27.7/CMakeCCompiler.cmake CMakeFiles/3.27.7/CMakeCXXCompiler.cmake CMakeFiles/3.27.7/CMakeSystem.cmake _deps/googletest-src/CMakeLists.txt _deps/googletest-src/googlemock/CMakeLists.txt _deps/googletest-src/googlemock/cmake/gmock.pc.in _deps/googletest-src/googlemock/cmake/gmock_main.pc.in _deps/googletest-src/googletest/CMakeLists.txt _deps/googletest-src/googletest/cmake/Config.cmake.in _deps/googletest-src/googletest/cmake/gtest.pc.in _deps/googletest-src/googletest/cmake/gtest_main.pc.in _deps/googletest-src/googletest/cmake/internal_utils.cmake _deps/min_sock-src/CMakeLists.txt _deps/min_sock-src/src/CMakeLists.txt: phony
 
 
 #############################################

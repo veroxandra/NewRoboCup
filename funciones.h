@@ -70,57 +70,60 @@ string obtenerPrimeraPalabra(string& str) {
     return primeraPalabra;
 }
 
-vector<string> dividir_en_palabras_parentesis(string const &s){
+vector<string> dividir_en_palabras_parentesis(string const &s) {
     vector<string> palabras;
     string palabra;
-    char token1 = '(';
     int count_parentesis = 0;
-    char token2 = ')';
 
-    for(int i = 0; i<s.length(); i++){
-        if(s.at(i) == token1)
-        {
+    for (char ch : s) {
+        if (ch == '(') {
             count_parentesis++;
-            if(count_parentesis > 1)
-                palabra.push_back(s.at(i));
-        }
-        else if (s.at(i) == token2)
-        {
+            if (count_parentesis > 1) {
+                palabra.push_back(ch);
+            }
+        } else if (ch == ')') {
             count_parentesis--;
-            if(count_parentesis > 0)
-                palabra.push_back(s.at(i));
+            if (count_parentesis > 0) {
+                palabra.push_back(ch);
+            }
+        } else {
+            if (count_parentesis > 0) {
+                palabra.push_back(ch);
+            }
         }
-        else{
-            palabra.push_back(s.at(i));
-        }
-        if (count_parentesis == 0){
+
+        if (count_parentesis == 0 && !palabra.empty()) {
             palabras.push_back(palabra);
             palabra.clear();
         }
     }
+
     return palabras;
 }
+
 
 string crearMove(Posicion pos){
     string movimiento="(move "+to_string(pos.x)+" "+to_string(pos.y)+")";
     return movimiento;
 }
 
-vector<string> encontrarStringConPrefijo(const string& str, const string& prefijo) {//va
+vector<string> encontrarStringConPrefijo(const string& str, const string& prefijo) {
     size_t pos = str.find(prefijo);
-    if (pos != -1) {
-        //cout <<"Encontrado"<<endl;
-        for(auto d:vectorpalabras(str.substr(pos))){
-            //cout << d<<endl;
-        }
+    if (pos != string::npos) { // Correcto uso de std::string::npos
         return vectorpalabras(str.substr(pos));
     }
-    return vectorpalabras(""); // Retorna una cadena vacía si no se encuentra el prefijo
+    return vectorpalabras(""); // Retorna un vector vacío si no se encuentra el prefijo
 }
 
-Posicion TriangularPos2(const std::vector<std::string>& lecturaFlag, const std::vector<std::string>& lecturaFlag2, const Posicion& Pos2, const Posicion& Pos1) {
+/*Posicion TriangularPos2(const std::vector<std::string>& lecturaFlag, const std::vector<std::string>& lecturaFlag2, const Posicion& Pos2, const Posicion& Pos1) {
     // Obtener las decisiones de dirección y distancia de cada lectura de flag
-    Decision decision1 = { lecturaFlag[4], lecturaFlag[3]};
+    Decision decision1 = { lecvector<string> encontrarStringConPrefijo(const string& str, const string& prefijo) {
+                                                                                                                size_t pos = str.find(prefijo);
+    if (pos != string::npos) { // Correcto uso de std::string::npos
+        return vectorpalabras(str.substr(pos));
+    }
+    return vectorpalabras(""); // Retorna un vector vacío si no se encuentra el prefijo
+}turaFlag[4], lecturaFlag[3]};
     Decision decision2 = { lecturaFlag2[4], lecturaFlag2[3] };
 
     double Da = stod(decision1.distancia), Db = stod(decision2.distancia);
@@ -146,7 +149,7 @@ Posicion TriangularPos2(const std::vector<std::string>& lecturaFlag, const std::
     //resultado.angulo = alpha;
 
     return resultado;
-}
+}*/
 struct Triangulo {
     double xa, ya, da, alpha_a;
     double xb, yb, db, alpha_b;
@@ -178,9 +181,6 @@ Posicion TriangularPos(const std::vector<std::string>& lecturaFlag, const std::v
 
     return coordenadas;
 }
-
-
-
 
 Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &palabras,Jugador &jugador) {
     vector<string> valor,vectoria,valor2,valor3,valor4,valor5,aux,aux2;
@@ -288,7 +288,6 @@ void PosicionarJugador(Jugador jugador, MinimalSocket::Address server_udp,Minima
     for(auto &p:posiciones){
         p.x=-p.x;
     }
-
     switch(jugador.numero){
     case 1:
         udp_socket.sendTo(crearMove(posiciones.at(0)), server_udp);
@@ -379,8 +378,6 @@ bool MasCercaBola(vector<string> direcciones, vector<string> distancias,double d
         }
     return true;
 }
-
-
 
 Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address server_udp,MinimalSocket::udp::Udp<true>& udp_socket){
     string vectoria,valor2,valor3, porteria,valorpase,distPor;
