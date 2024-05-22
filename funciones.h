@@ -829,7 +829,7 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                         bola = true;
                         bool pases;
                         if(jugador.equipo==1)
-                        pases=(Data.centro_abajo!="");
+                        pases=(Data.centro_abajo!="");//Los de la derecha la pasan si ven la de abajo
                         else
                          pases=Data.centro_arriba!="";
                         double variable=stod(Data.pelota);
