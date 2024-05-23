@@ -272,23 +272,6 @@ Lectura ClasificaDatos (string &tipo, vector<string>  &cadenas, vector<string> &
             valor6=encontrarStringConPrefijo(parentesis,"(f c b)");//Buscar en todos los parentesis el de (g l)
             valor7=encontrarStringConPrefijo(parentesis,"(f c t)");//Buscar en todos los parentesis el de (g l
 
-            for(auto Bandera:Flags){
-               aux  = encontrarStringConPrefijo(parentesis,Bandera);
-                if(aux.size()>1){//Hemos visto un flag
-                    if(count==0){
-                        count++;
-                        aux2=aux;
-                        aux3=i;//Guardamos el indice del vector de posiciones
-                    }else if(count ==1){
-                        count++;
-                        Posicion pos=TriangularPos(aux,aux2,FlagsPos[aux3],FlagsPos[i]);
-                        if (!std::isnan(pos.x) && !std::isnan(pos.y)) {
-                                                    jugador.pos = pos;
-                                                }
-                    }
-                }
-                i++;
-            }
             if(valor6.size()>1){
                 lectura.centro_arriba=(valor6.at(1));
             }
@@ -773,7 +756,6 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
             }
             if(stod(Data.pelota_angle) < 0 && Data.distancia_portero_up_r!=""&&stod(Data.pelota)<30){
                         udp_socket.sendTo("(dash 100 -90)", server_udp);
-
             }
             if(stod(Data.pelota) < 1.3){
                 udp_socket.sendTo("(catch "+ Data.pelota_angle+")", server_udp);
@@ -833,10 +815,10 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                         else
                          pases=Data.centro_arriba!="";
                         double variable=stod(Data.pelota);
-                        if(variable<0.6&&porteria!=""&&stod(distPor)<30){//Cebollon
-                            int offset = (std::rand() % 2 == 0) ? 12 : -12;
+                        if(variable<0.6&&porteria!=""&&stod(distPor)<40){//Cebollon
+                            int offset = (std::rand() % 2 == 0) ? 9 : -9;
                             if(stod(distPor)>22)
-                                offset=(std::rand() % 2 == 0) ? 9 : 9;
+                                offset=(std::rand() % 2 == 0) ? 7 : -7;
                             int Palo=stod(porteria)+offset;
                             udp_socket.sendTo("(kick 100 "+to_string(Palo)+")", server_udp);
                         }
@@ -848,15 +830,15 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                                 paseplus=30;
                             udp_socket.sendTo("(kick "+to_string(paseplus)+" "+valorpase+")", server_udp);
                         }else if(variable<0.6&&porteria==""&&(porteriaRival!=""||Data.centro_abajo!=""||Data.centro_arriba!="")){//Tengo el balon y no veo la porteria rival pero si otras flags
-                            udp_socket.sendTo("(kick 10 90)", server_udp);
+                            udp_socket.sendTo("(kick 15 90)", server_udp);
                             this_thread::sleep_for(std::chrono::milliseconds(150));
                         }else if(variable<0.6&&porteria!=""){//Tengo el balon y veo la porteria rival
-                            udp_socket.sendTo("(kick 50 "+porteria+")", server_udp);
+                            udp_socket.sendTo("(kick 100 "+porteria+")", server_udp);
                         }
                         else if(porteria==""&&variable<0.6&&porteriaRival==""&&Data.centro_abajo==""&&Data.centro_arriba==""){
                                             udp_socket.sendTo("(kick 40 180)", server_udp);
                                         }
-                        else if(abs(stod(Data.pelota_angle))>20){
+                        else if(abs(stod(Data.pelota_angle))>45){
                             udp_socket.sendTo("(turn "+Data.pelota_angle+")", server_udp);
                         }else if(jugador.equipo==-1&&MasCercaBola(Data.direccionamigo2,Data.distamigo2,variable,2)){
                             udp_socket.sendTo("(dash 100 "+Data.pelota_angle+")", server_udp);
@@ -867,7 +849,7 @@ Lectura Accion (const Jugador &jugador,Lectura &Data, MinimalSocket::Address ser
                         }
                     }
                 if(!bola){
-                    udp_socket.sendTo("(turn 45)", server_udp);
+                    udp_socket.sendTo("(turn 90)", server_udp);
                 }
                 }else if(Data.tipo=="kick_off_l"){
                     cout<<"EMPIEZA EL GAME"<<endl;

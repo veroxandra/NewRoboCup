@@ -1,4 +1,4 @@
-#!/bin/bash
+!/bin/bash
 
 gnome-terminal --tab --title="Programa 2222" -- bash -c "./player 2222 pOESIAC Portero; exec bash" &
 sleep 1.5
